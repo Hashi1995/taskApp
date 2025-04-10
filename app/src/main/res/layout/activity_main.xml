@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ADD8E6"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task Manager App"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="#ADD8E6"
+        android:background="#1976D2" />
+
+    <TextView
+        android:id="@+id/texttitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Enter Task Details"
+        android:textSize="24dp"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/title"
+        />
+
+    <EditText
+        android:id="@+id/taskID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task ID"
+        android:textSize="24dp"
+        android:layout_below="@id/texttitle"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/tasktitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Title"
+        android:textSize="24dp"
+        android:layout_below="@id/taskID"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/taskdescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Description"
+        android:textSize="24dp"
+        android:layout_below="@id/tasktitle"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/duedate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Due Date"
+        android:textSize="24dp"
+        android:layout_below="@id/taskdescription"
+        android:inputType="date"/>
+
+    <Button
+        android:id="@+id/btnInsert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="Add New Task"
+        android:layout_below="@id/duedate"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnupdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="Update Task"
+        android:layout_below="@id/btnInsert"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="Delete Task"
+        android:layout_below="@id/btnupdate"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="View Task Details"
+        android:layout_below="@id/btnDelete"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"/>
+
+</RelativeLayout>
