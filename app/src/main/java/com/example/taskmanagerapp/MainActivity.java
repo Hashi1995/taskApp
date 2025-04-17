@@ -1,23 +1,27 @@
 package com.example.taskmanagerapp;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText taskID, taskTitle, taskDescription, dueDate;
+
+    private EditText taskTitle, taskDescription, dueDate;
     private Button btnInsert, btnUpdate, btnDelete, btnView;
-    private TextView titleText, textTitle;
+
+    DBHelper DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        taskID = findViewById(R.id.taskID);
         taskTitle = findViewById(R.id.tasktitle);
         taskDescription = findViewById(R.id.taskdescription);
         dueDate = findViewById(R.id.duedate);
@@ -25,87 +29,79 @@ public class MainActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnupdate);
         btnDelete = findViewById(R.id.btnDelete);
         btnView = findViewById(R.id.btnView);
-        titleText = findViewById(R.id.title);
-        textTitle = findViewById(R.id.texttitle);
-
+        DB = new DBHelper(this);
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                addTask();
+            public void onClick(View view) {
+                String titleTXT = taskTitle.getText().toString();
+                String taskDescriptionTXT = taskDescription.getText().toString();
+                String dateTXT = dueDate.getText().toString();
+
+                Boolean checkinsertdata = DB.inserttaskdata(titleTXT, taskDescriptionTXT, dateTXT);
+
+                if (checkinsertdata) {
+                    Toast.makeText(MainActivity.this, "New Entry Inserted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                updateTask();
+            public void onClick(View view) {
+                String titleTXT = taskTitle.getText().toString();
+                String taskDescriptionTXT = taskDescription.getText().toString();
+                String dateTXT = dueDate.getText().toString();
+
+                Boolean checkupdatedata = DB.updatetaskdata(titleTXT, taskDescriptionTXT, dateTXT);
+
+                if (checkupdatedata) {
+                    Toast.makeText(MainActivity.this, "Entry Updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Entry Not Updated", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                deleteTask();
+            public void onClick(View view) {
+                String titleTXT = taskTitle.getText().toString();
+
+                Boolean checkdeletedata = DB.deletetaskdata(titleTXT);
+
+                if (checkdeletedata) {
+                    Toast.makeText(MainActivity.this, "Entry Deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Entry Not Deleted", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                viewTaskDetails();
+            public void onClick(View view) {
+                Cursor res = DB.getdata();
+                if (res.getCount() == 0) {
+                    Toast.makeText(MainActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                StringBuffer buffer = new StringBuffer();
+                while (res.moveToNext()) {
+                    buffer.append("Task Title :" + res.getString(0) + "\n");
+                    buffer.append("Task Description :" + res.getString(1) + "\n");
+                    buffer.append("Due Date :" + res.getString(2) + "\n");
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Task Entries");
+                builder.setMessage(buffer.toString());
+                builder.show();
             }
         });
-    }
-
-
-    private void addTask() {
-        String taskId = taskID.getText().toString().trim();
-        String title = taskTitle.getText().toString().trim();
-        String description = taskDescription.getText().toString().trim();
-        String dueDateText = dueDate.getText().toString().trim();
-
-
-        if (!taskId.isEmpty() && !title.isEmpty() && !description.isEmpty() && !dueDateText.isEmpty()) {
-            textTitle.setText("Task Added: " + title);
-        } else {
-            textTitle.setText("Please fill all fields.");
-        }
-    }
-
-
-    private void updateTask() {
-        String taskId = taskID.getText().toString().trim();
-        String title = taskTitle.getText().toString().trim();
-        String description = taskDescription.getText().toString().trim();
-        String dueDateText = dueDate.getText().toString().trim();
-
-
-        if (!taskId.isEmpty() && !title.isEmpty() && !description.isEmpty() && !dueDateText.isEmpty()) {
-            textTitle.setText("Task Updated: " + title);
-        } else {
-            textTitle.setText("Please fill all fields.");
-        }
-    }
-
-
-    private void deleteTask() {
-        String taskId = taskID.getText().toString().trim();
-        if (!taskId.isEmpty()) {
-
-            textTitle.setText("Task Deleted: ID " + taskId);
-        } else {
-            textTitle.setText("Please enter a valid Task ID.");
-        }
-    }
-
-
-    private void viewTaskDetails() {
-        String taskId = taskID.getText().toString().trim();
-        if (!taskId.isEmpty()) {
-            textTitle.setText("Task Details for ID: " + taskId + "\nTitle: Task Title\nDescription: Task Description\nDue Date: 2025-04-10");
-        } else {
-            textTitle.setText("Please enter a valid Task ID.");
-        }
     }
 }

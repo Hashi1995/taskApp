@@ -32,21 +32,12 @@
         />
 
     <EditText
-        android:id="@+id/taskID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Task ID"
-        android:textSize="24dp"
-        android:layout_below="@id/texttitle"
-        android:inputType="text"/>
-
-    <EditText
         android:id="@+id/tasktitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Task Title"
         android:textSize="24dp"
-        android:layout_below="@id/taskID"
+        android:layout_below="@+id/texttitle"
         android:inputType="text"/>
 
     <EditText
